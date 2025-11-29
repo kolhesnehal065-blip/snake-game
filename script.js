@@ -1,4 +1,9 @@
 const board = document.querySelector('.board');
+const startButton = document.querySelector('.btn-start');
+const modal = document.querySelector('.modal');
+const startGameModal = document.querySelector('.start-game');
+const gameOverModal = document.querySelector('.game-over');
+const restartButton = document.querySelector('.btn-restart');
 
 const blockHeight = 50
 const blockWidth = 50
@@ -63,8 +68,14 @@ let direction = 'down';
     }
 
     if( head.x < 0 || head.x >= rows || head.y < 0 || head.y >= cols ){
-        alert('Game Over');
-        clearInterval(intervalId);
+        // alert('Game Over')
+        clearInterval(intervalId)
+
+        modal.style.display = 'flex';
+        gameOverModal.style.display = 'block';
+        startGameModal.style.display = 'none';
+        return;
+
     }
 
     if( head.x === food.x && head.y === food.y ){
@@ -90,10 +101,26 @@ let direction = 'down';
  }
 
 
-intervalId = setInterval( () => {
+// intervalId = setInterval( () => {
 
-   render()
-    }, 300);    
+//    render()
+//     }, 300); 
+    
+    startButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+        intervalId = setInterval( () => {
+
+            render()
+             }, 300);
+    })
+
+    restartButton.addEventListener('click', restartGame);
+
+    function restartGame(){
+        location.reload(); //no need only for checking
+
+    }
+
 
     addEventListener('keydown', (event) => {
         console.log(event.key)
