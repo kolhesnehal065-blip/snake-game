@@ -12,6 +12,8 @@ body {
 }
 
 :root{
+
+    /* background-colurs */
     --bg-primary-color: #0c0c0c;
     --bg-fill-color: #fdfdfc;
     --bg-food-color: #ff3b3b;
@@ -100,6 +102,7 @@ section .infos{
     /* width: 30px;
     height: 30px; */
     border: 1px solid var(--border-primary-color);
+    border-radius: 50%;
     
 }
 
@@ -132,6 +135,8 @@ section .infos{
     flex-direction: column; 
     align-items: center;
     gap: var(--space-lg);
+    border-radius: 10px;
+
 
 }
 .modal .game-over {

@@ -1,16 +1,34 @@
 const board = document.querySelector('.board');
+//console
 const startButton = document.querySelector('.btn-start');
+//console.log()
 const modal = document.querySelector('.modal');
 const startGameModal = document.querySelector('.start-game');
 const gameOverModal = document.querySelector('.game-over');
+
+//console.log(gameOverModal)
 const restartButton = document.querySelector('.btn-restart');
+
+const highsScoreElement = document.querySelector('#high-score');
+const scoreElement = document.querySelector('#score');
+const timeElement = document.querySelector('#time');
 
 const blockHeight = 50
 const blockWidth = 50
 
+let highScore = localStorage.getItem("highScore") || 0;
+let score = 0;
+let time = '00:00';
+
+highsScoreElement.innerText = highScore;
+
 const cols = Math.floor(board.clientWidth / blockWidth);
 const rows = Math.floor(board.clientHeight / blockHeight);
+
 let intervalId = null;
+let timeIntervalId = null;
+
+
 let food = { x: Math.floor(Math.random() * rows), y: Math.floor(Math.random() * cols) };
 
 const blocks = [];
@@ -32,12 +50,13 @@ let direction = 'down';
         const block = document.createElement('div');
         block.classList.add('block');
         board.appendChild(block);
-        block.innerText = `${row},${col}`;
+        // block.innerText = `${row},${col}`;
         blocks[ `${row},${col}` ] = block;
 
     }
  }
 
+ // direction of snake towards food
  function render(){
 
     let head = null;
@@ -77,13 +96,22 @@ let direction = 'down';
         return;
 
     }
-
+// food consume logic 
     if( head.x === food.x && head.y === food.y ){
         blocks[ `${food.x},${food.y}` ].classList.remove('food');
         food = { x: Math.floor(Math.random() * rows), y: Math.floor(Math.random() * cols) };
         blocks[ `${food.x},${food.y}` ].classList.add('food');
 
         snake.unshift(head);
+
+
+        score += 10;
+        scoreElement.innerText = score;
+        if(score > highScore){
+            highScore = score;
+            localStorage.setItem('highScore', highScore);
+            highsScoreElement.innerText = highScore; // exrtra part
+        }
     }
 
     snake.forEach( segment => {
@@ -112,16 +140,40 @@ let direction = 'down';
 
             render()
              }, 300);
-    })
+
+        timerIntervalId = setInterval(()=>{
+            let [min,sec] = time.split(":").map(Number);
+            if(sec==59){
+                min+=1;
+                sec=0;
+            } else{
+                sec+= 1;
+            }
+
+            const mm = String(min).padStart(2,'0');
+            const ss = String(sec).padStart(2,'0');
+
+             time = `${mm}:${ss}`;
+            // time = '00-00';
+            timeElement.innerText = time;
+        },1000);
+    });
 
     restartButton.addEventListener('click', restartGame);
 
     function restartGame(){
         location.reload(); //no need only for checking
+        // one more using random function 
+        score = 0;
+        time = `00-00`;
+
+        scoreElement.innerText = score;
+        timeElement.innerText = time;
+        highsScoreElement.innerText = highScore;
 
     }
 
-
+// keyboard ke buttons kam karne ke liye
     addEventListener('keydown', (event) => {
         console.log(event.key)
         if(event.key === 'ArrowLeft'){
