@@ -141,7 +141,7 @@ let direction = 'down';
             render()
              }, 300);
 
-        timerIntervalId = setInterval(()=>{
+        timeIntervalId = setInterval(()=>{
             let [min,sec] = time.split(":").map(Number);
             if(sec==59){
                 min+=1;
