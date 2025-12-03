@@ -129,7 +129,7 @@ section .infos{
     top:0;
     background-color: #35353587;
     backdrop-filter: bliur(4px);
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
 
@@ -194,7 +194,7 @@ section .infos{
     left: 0;
     background-color: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(8px);
-    display: flex;
+    display:flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
